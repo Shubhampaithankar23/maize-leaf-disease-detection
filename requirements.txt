@@ -1,9 +1,8 @@
+tensorflow==2.14.0
+numpy
+opencv-python
+pillow
 fastapi==0.104.1
 uvicorn==0.24.0
 python-multipart==0.0.6
-tensorflow==2.14.0
-torch==2.1.1
-opencv-python==4.8.1.78
-numpy==1.24.3
-Pillow==10.0.1
-scipy==1.11.4
+gunicorn
