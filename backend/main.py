@@ -112,17 +112,8 @@ async def startup_event():
 # ============================================
 
 @app.get("/")
-async def read_root():
-    """Root endpoint"""
-    return {
-        "status": "success",
-        "message": "Smart Maize Leaf Disease Detection System API",
-        "version": "1.0.0",
-        "endpoints": {
-            "predict": "POST /api/predict",
-            "health": "GET /api/health"
-        }
-    }
+def root():
+    return {"status": "Maize Disease Detection API running"}
 
 @app.get("/api/health")
 async def health_check():
