@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Maize Leaf Disease Detection System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-top">
+                    <div>
+                        <h1 class="header-title">🌾 Smart Maize Leaf Disease Detection System</h1>
+                        <p class="header-subtitle">Explainable AI for Precision Agriculture</p>
+                    </div>
+                    <div class="header-user-section">
+                        <span class="user-name" id="userName"></span>
+                        <button class="logout-btn" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <div class="content-wrapper">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="card upload-card">
+                    <h2 class="section-title">Upload Maize Leaf Image</h2>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <h3 class="upload-text">Drag & drop your image here</h3>
+                        <p class="upload-subtext">or click to select</p>
+                        <input type="file" id="imageInput" class="file-input" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="upload-options">
+                        <button class="btn btn-primary" id="uploadBtn">
+                            📁 Select from Gallery
+                        </button>
+                        <button class="btn btn-secondary" id="cameraBtn">
+                            📷 Take Photo
+                        </button>
+                    </div>
+
+                    <div id="previewContainer" class="preview-container" style="display: none;">
+                        <img id="previewImage" class="preview-image" alt="Preview">
+                        <button class="btn btn-secondary" id="clearBtn" style="width: 100%; margin-top: 0.5rem;">
+                            Clear Image
+                        </button>
+                    </div>              
+                    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Analyzing image...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-grid">
+                    <!-- Prediction Card -->
+                    <div class="card prediction-card">
+                        <h2 class="section-title">Prediction Results</h2>
+                        <div class="result-item">
+                            <label class="result-label">Disease Detected</label>
+                            <p class="disease-name" id="diseaseName">-</p>
+                        </div>
+                        <div class="result-item">
+                            <label class="result-label">Confidence Score</label>
+                            <div class="confidence-wrapper">
+                                <p class="confidence-score" id="confidenceScore">0%</p>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill" style="width: 0%;">
+                                        <span class="confidence-text" id="confidenceText">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <label class="result-label">Detection Time</label>
+                            <p class="detection-time" id="detectionTime">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Explainability Card (Grad-CAM) -->
+                    <div class="card explainability-card">
+                        <h2 class="section-title">Explainability (Grad-CAM)</h2>
+                        <p class="section-description">Highlighted regions show areas that influenced the disease prediction</p>
+                        <div class="heatmap-container">
+                            <img id="heatmapImage" class="heatmap-image" alt="Grad-CAM Heatmap" style="display: none;">
+                            <div id="heatmapPlaceholder" class="heatmap-placeholder">
+                                <p>Heatmap will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations Card -->
+                <div class="card recommendations-card">
+                    <h2 class="section-title">🌱 Agronomic Recommendations</h2>
+                    
+                    <div class="recommendation-grid">
+                        <!-- Disease Cause -->
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🔍</div>
+                            <h3 class="recommendation-title">Disease Cause</h3>
+                            <p class="recommendation-content" id="diseaseCause">-</p>
+                        </div>
+
+                        <!-- Pesticide -->
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🧪</div>
+                            <h3 class="recommendation-title">Pesticide Treatment</h3>
+                            <p class="recommendation-content" id="pesticide">-</p>
+                        </div>
+
+                        <!-- Fertilizer -->
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🌾</div>
+                            <h3 class="recommendation-title">Fertilizer Advice</h3>
+                            <p class="recommendation-content" id="fertilizer">-</p>
+                        </div>
+
+                        <!-- Prevention -->
+                        <div class="recommendation-item">
+                            <div class="recommendation-icon">🛡️</div>
+                            <h3 class="recommendation-title">Preventive Measures</h3>
+                            <p class="recommendation-content" id="prevention">-</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Camera Modal -->
+            <div id="cameraModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>📷 Take Photo</h2>
+                        <button class="modal-close" id="closeCameraModal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="camera-container">
+                            <video id="cameraVideo" autoplay playsinline></video>
+                            <canvas id="cameraCanvas" style="display: none;"></canvas>
+                            <div id="cameraPlaceholder" class="camera-placeholder">
+                                <p>Camera access required</p>
+                                <button class="btn btn-primary" id="startCameraBtn">Enable Camera</button>
+                            </div>
+                        </div>
+                        <div class="camera-controls">
+                            <button class="btn btn-secondary" id="switchCameraBtn" style="display: none;">🔄 Switch Camera</button>
+                            <button class="btn btn-primary" id="captureBtn" style="display: none;">📸 Capture Photo</button>
+                            <button class="btn btn-success" id="usePhotoBtn" style="display: none;">✅ Use This Photo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Smart Maize Leaf Disease Detection System | Built with AI & XAI Technology</p>
+            <p class="footer-tech">FastAPI Backend | TensorFlow Deep Learning | Grad-CAM Explainability</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

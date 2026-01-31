@@ -1,0 +1,8 @@
+# Place your pre-trained model files here
+# Supported formats:
+# - TensorFlow/Keras: *.h5
+# - PyTorch: *.pt
+#
+# Example:
+# - maize_disease_model.h5
+# - maize_disease_model.pt
