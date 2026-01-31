@@ -367,5 +367,6 @@ For issues or questions:
 **Built with ❤️ for precision agriculture and sustainable farming**
 
 *Smart Maize Leaf Disease Detection System v1.0.0*
-#   m a i z e - l e a f - d i s e a s e - d e t e c t i o n  
+#   m a i z e - l e a f - d i s e a s e - d e t e c t i o n 
+ 
  
